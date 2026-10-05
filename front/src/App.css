@@ -1,0 +1,30 @@
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  text-align: left;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+th {
+  background: #f0f0f0;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafafa;
+}
