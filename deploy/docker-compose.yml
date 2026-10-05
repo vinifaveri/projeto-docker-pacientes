@@ -64,6 +64,32 @@ services:
       retries: 10
       start_period: 15s
 
+  front:
+    build:
+      context: ../front
+
+    restart: unless-stopped
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      api:
+        condition: service_healthy
+
+    networks:
+      - rede_front
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   pgdata:
 
