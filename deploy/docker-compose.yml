@@ -29,8 +29,44 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    build:
+      context: ../api
+
+    restart: unless-stopped
+
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-appdb}
+
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    networks:
+      - rede_db
+      - rede_front
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO- http://127.0.0.1:3000/patients > /dev/null || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
 volumes:
   pgdata:
 
 networks:
   rede_db:
+  rede_front:
